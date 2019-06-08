@@ -1,4 +1,4 @@
-package com.nuc.zp.juc.jvm;
+package com.nuc.zp.jvm;
 
 public class HelloGc {
 

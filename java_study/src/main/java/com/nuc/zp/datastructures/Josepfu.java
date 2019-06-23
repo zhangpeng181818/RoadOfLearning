@@ -1,5 +1,8 @@
 package com.nuc.zp.datastructures;
 
+/**
+ * 约瑟夫问题
+ */
 public class Josepfu {
     public static void main(String[] args) {
         CircleSingleLinkedList list = new CircleSingleLinkedList();

@@ -1,5 +1,6 @@
 package com.nuc.zp.datastructures.recursion;
 
+import java.util.Scanner;
 /**
  * 题目描述
  * 最近FJ为他的奶牛们开设了数学分析课，FJ知道若要学好这门课，必须有一个好的三角函数基本功。
@@ -23,33 +24,48 @@ package com.nuc.zp.datastructures.recursion;
  * A3=sin(1-sin(2+sin(3)))
  * <p>
  * ((A1+3)A2+2)A3+1
- *
+ * <p>
  * S1=(A1)+1
  * S2=(A1+2)A2+1
- * S3=(A1+3)+A2+2)A3+1
+ * S3=（(A1+3)A2+2)A3+1
  */
 public class SineDance1 {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         SineDance1 sineDance1 = new SineDance1();
-        System.out.println(sineDance1.Sn(1, 1));
-    }
-
-    public String Sn(int n,int N) {
-        if (n == 1) {
-            return  "(A1)+1";
+        while (scanner.hasNext()) {
+            int n = scanner.nextInt();
+            sineDance1.show(n);
         }
 
-        return "(A1+1)+1";
     }
 
+    private void show(int n) {
+        if (n < 0) {
+            return;
+        }
+        System.out.println(Sn(n, n + 1));
+    }
 
+    private String Sn(int n, int N) {
+        if (n == 1 && N - n == 1) {
+            return An(1, 1) + "+1";
+        }
+        if (n == 1 && N - n > 1) {
+            return An(1, 1) + "+" + (N - n) + ")";
+        }
+        String kuohao = (N - n == 1) ? "" : ")";
+        return "(" + Sn(n - 1, N) + An(n, n) + "+" + (N - n) + kuohao;
+    }
 
-
-
-
-    public String An(int n, int N) {
-        String fuhao = (n == 1) ? "" : N > 2 && n % 2 == 0 ? "+" : "-";
+    private String An(int n, int N) {
+        String fuhao = "";
+        if (N > 2) {
+            fuhao = n == 1 ? "" : (N - n + 1) % 2 == 0 ? "+" : "-";
+        } else {
+            fuhao = (n == 1) ? "" : "-";
+        }
         if (n == 0) {
             return "";
         }

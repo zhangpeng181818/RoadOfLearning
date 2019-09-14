@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过渡与动画</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+
+-->
+
+<style>
+    .xxx-enter-active, .xxx-leave-active {
+        transition: opacity 1s;
+    }
+
+    .xxx-enter, .xxx-leave-to {
+        opacity: 0;
+    }
+
+
+
+    .move-enter-active{
+        transition: all 1s;
+    }
+
+    .move-leave-active {
+        transition: all 3s;
+    }
+
+    .move-enter, .move-leave-to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+
+    .bounce-enter-active {
+        animation: bounce-in .5s;
+    }
+    .bounce-leave-active {
+        animation: bounce-in .5s reverse;
+    }
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1.5);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+</style>
+
+<div id="app">
+    <button @click="isShow=!isShow">toggle</button>
+    <transition name="xxx">
+        <p v-show="isShow" class="xxx-enter-to">hello</p>
+    </transition>
+</div>
+
+<div id="app2">
+    <button @click="isShow=!isShow">toggle</button>
+    <transition name="move">
+        <p v-show="isShow" class="move-enter-to">hello</p>
+    </transition>
+</div>
+
+<div id="app3">
+    <button @click="isShow=!isShow">toggle</button><br>
+    <transition name="bounce">
+        <p v-if="isShow" style="display: inline-block">hello</p>
+    </transition>
+</div>
+
+<script>
+    //创建vue实例
+    const vm = new Vue({//配置对象
+        el: '#app',//element：选择器
+        data: {
+            isShow: true
+        }
+    });
+
+    const vm2 = new Vue({//配置对象
+        el: '#app2',//element：选择器
+        data: {
+            isShow: true
+        }
+    });
+
+    const vm3 = new Vue({//配置对象
+        el: '#app3',//element：选择器
+        data: {
+            isShow: true
+        }
+    });
+</script>
+</body>
+</html>

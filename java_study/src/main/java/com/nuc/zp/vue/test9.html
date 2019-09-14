@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <form action="" @submit.prevent="handleSubmit">
+        <span>用户名：</span><input type="text" v-model="username"><br>
+        <span>密  码：</span><input type="password" v-model="password"><br>
+        <span>性  别：</span>
+        <input type="radio" id="female" value="女" v-model="sex"><label for="female">女</label>
+        <input type="radio" id="male" value="男" v-model="sex"><label for="male">男</label><br>
+        <span>爱  好：</span>
+        <input type="checkbox" id="basket" value="篮球" v-model="likes"><label for="basket">篮球</label>
+        <input type="checkbox" id="foot" value="足球" v-model="likes"><label for="foot">足球</label>
+        <input type="checkbox" id="pingpang" value="乒乓" v-model="likes"><label for="pingpang">乒乓</label><br>
+
+
+        <span>城市：</span>
+        <select v-model="cityName">
+            <option value="">未选择</option>
+            <option :value="city.name" v-for="(city,index) in allCitys" key="index">{{city.name}}</option>
+
+        </select><br>
+        <span>介绍：</span><textarea rows="10" v-model="desc"></textarea><br>
+        <input type="submit" value="注册">
+    </form>
+</div>
+<script>
+    //创建vue实例
+    const vm = new Vue({//配置对象
+        el: '#app',//element：选择器
+        data: {
+            username: '',
+            password: "",
+            sex: "男",
+            likes: ["足球"],
+            allCitys: [{id: 1, name: "北京"}, {id: 2, name: "上海"}],
+            cityName: "上海",
+            desc: "haha"
+        },
+        methods: {
+            handleSubmit() {
+
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

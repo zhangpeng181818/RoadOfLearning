@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时间过滤器</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.js"></script>
+</head>
+<body>
+<!--
+
+-->
+
+
+<div id="app">
+    <p> {{date}}</p>
+    <p> {{date | dateString}}</p>
+    <p> {{date | dateString('YYYY-MM-DD')}}</p>
+    <p> {{date | dateString('HH:mm:ss')}}</p>
+</div>
+<script>
+
+    // Vue.filter('dateString', function (value, format) {
+    //     return moment(value).format(format || 'YYYY-MM-DD HH:mm:ss');
+    // });
+
+    Vue.filter('dateString', function (value, format = 'YYYY-MM-DD HH:mm:ss') {
+        return moment(value).format(format);
+    });
+
+
+    //创建vue实例
+    const vm = new Vue({//配置对象
+        el: '#app',//element：选择器
+        data: {
+            date: new Date()
+        }
+    })
+
+</script>
+</body>
+</html>

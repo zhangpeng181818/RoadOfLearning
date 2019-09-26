@@ -1,4 +1,18 @@
+server:
+  port: 5918
 spring:
   data:
     mongodb:
-      uri: mongodb://test2:123456@192.168.0.11:27017/test
+        uri: mongodb://icu:icu@39.107.235.225:5197/icu
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot_cache
+    username: root
+    password:
+#开启驼峰命名
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    root: info
+    com.nuc.zp: debug

@@ -3,17 +3,86 @@ package com.nuc.zp.utils;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class DateUtils {
 
+    private static final ThreadLocal<DateFormat> timeFormat = new ThreadLocal<DateFormat>() {
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("yyyyMMddHHmmss");
+        }
+    };
+
+    private static final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("yyyyMMdd");
+        }
+    };
+
+
+    public static String getCurrentTime(){
+        return timeFormat.get().format(new Date());
+    }
+
     /**
-     * 得到目标周的某一天
-     *
-     * @param index    （0-6分别表示周一至周六）
-     * @param interval （-1表示上周，0表示本周，1表示下周，以此类推）
-     * @return
+     * 获取上n个小时整点小时时间
      */
-    private static Date getWeektargetday(int index, int interval) {
+    public static String getLastHourTime(int n) {
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.HOUR_OF_DAY, ca.get(Calendar.HOUR_OF_DAY) - n);
+        return timeFormat.get().format(ca.getTime());
+    }
+
+    /**
+     * 获取当前时间的整点小时时间
+     */
+    public static String getCurrHourTime() {
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        return timeFormat.get().format(ca.getTime());
+    }
+
+    /**
+     * 获取当前时间的整点分钟时间
+     */
+    public static String getCurrMinuteTime() {
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.SECOND, 0);
+        return timeFormat.get().format(ca.getTime());
+    }
+
+    /**
+     * 获取上n个分钟整点分钟时间
+     */
+    public static String getLastMinuteTime(int n) {
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MINUTE, ca.get(Calendar.MINUTE) - n);
+        return timeFormat.get().format(ca.getTime());
+    }
+
+
+    /**
+     * 获取两个时间节点间隔天数
+     */
+    public static long intervalDays(String startTime, String stopTime) {
+        try {
+            long start = dateFormat.get().parse(startTime).getTime();
+            long end = dateFormat.get().parse(stopTime).getTime();
+            return (end - start) / (1000L * 60 * 60 * 24);
+        } catch (ParseException e) {
+            throw new RuntimeException("时间转换失败");
+        }
+    }
+
+    public static Date getWeektargetday(int index, int interval) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         // 获得当前日期是一个星期的第几天
@@ -30,14 +99,7 @@ public class DateUtils {
         return cal.getTime();
     }
 
-    /**
-     * 获取目标日期的间隔天
-     *
-     * @param date     目标日期
-     * @param interval 间隔天数
-     * @return
-     */
-    private static Date getIntervalOneDay(Date date, int interval) {
+    public static Date getIntervalOneDay(Date date, int interval) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH, interval);
@@ -45,27 +107,14 @@ public class DateUtils {
         return date;
     }
 
-    /**
-     * 获取目标日期0点
-     *
-     * @param current 目标日期时间戳
-     * @return
-     */
-    private static long getTargetDayZeroPoint(long current) {
+    public static long getTargetDayZeroPoint(long current) {
         if (current == 0) {
             return 0;
         }
         return (current - (current + TimeZone.getDefault().getRawOffset()) % (1000 * 3600 * 24)) / 1000;
     }
 
-
-    /**
-     * 获取目标日期23：59：59
-     *
-     * @param current 目标日期
-     * @return
-     */
-    private static long getTargetDay235959Point(long current) {
+    public static long getTargetDayLastPoint(long current) {
         if (current == 0) {
             return 0;
         }
@@ -73,11 +122,35 @@ public class DateUtils {
                 24 * 60 * 60 * 1000 - 1) / 1000;
     }
 
+    /**
+     * get Hour Of Day
+     */
+    public static int getHourOfDay() {
+        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    }
+
+    /**
+     * get Minute Of Day
+     */
+    public static int getMinuteOfDay() {
+        return Calendar.getInstance().get(Calendar.MINUTE);
+    }
+
+    /**
+     * get Second Of Day
+     */
+    public static int getSecondOfDay() {
+        return Calendar.getInstance().get(Calendar.SECOND);
+    }
+
+    /**
+     * 时间戳转换
+     */
+    public static String timestampConvertStr(long timestamp) {
+        return timeFormat.get().format(timestamp);
+    }
 
     public static void main(String[] args) {
-        System.out.println(getWeektargetday(0, 0));//获取本周周一
-        System.out.println(getIntervalOneDay(new Date(), 1));//明天
-        System.out.println(getTargetDayZeroPoint(System.currentTimeMillis()));//获取今日0点
-        System.out.println(getTargetDay235959Point(System.currentTimeMillis()));//获取今日23：59：59
+        System.out.println(timestampConvertStr(1576123932000L));
     }
 }

@@ -1,8 +1,10 @@
 package com.nuc.zp.utils;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import javax.validation.constraints.NotBlank;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +26,7 @@ public class DateUtils {
     };
 
 
-    public static String getCurrentTime(){
+    public static String getCurrentTime() {
         return timeFormat.get().format(new Date());
     }
 
@@ -150,7 +152,4 @@ public class DateUtils {
         return timeFormat.get().format(timestamp);
     }
 
-    public static void main(String[] args) {
-        System.out.println(timestampConvertStr(1576123932000L));
-    }
 }

@@ -17,6 +17,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     /**
      * 创建对象
+     *
      * @param user
      */
     @Override
@@ -26,29 +27,31 @@ public class UserRepositoryImpl implements UserRepository {
 
     /**
      * 根据用户名查询对象
+     *
      * @param userName
      * @return
      */
     @Override
     public User findUserByUserName(String userName) {
-        Query query=new Query(Criteria.where("username").is(userName));
-        User user =  mongoTemplate.findOne(query , User.class);
+        Query query = new Query(Criteria.where("username").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
         return user;
     }
 
     /**
      * 更新对象
+     *
      * @param user
      */
     @Override
     public long updateUser(User user) {
-        Query query=new Query(Criteria.where("id").is(user.getId()));
-        Update update= new Update().set("userName",user.getUsername()).set("passWord", user.getPassword());
+        Query query = new Query(Criteria.where("id").is(user.getId()));
+        Update update = new Update().set("userName", user.getUsername()).set("passWord", user.getPassword());
         //更新查询返回结果集的第一条
-        UpdateResult result =mongoTemplate.updateFirst(query,update,User.class);
+        UpdateResult result = mongoTemplate.updateFirst(query, update, User.class);
         //更新查询返回结果集的所有
         // mongoTemplate.updateMulti(query,update,UserEntity.class);
-        if(result!=null)
+        if (result != null)
             return result.getMatchedCount();
         else
             return 0;
@@ -56,12 +59,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     /**
      * 删除对象
+     *
      * @param id
      */
     @Override
     public void deleteUserById(Long id) {
-        Query query=new Query(Criteria.where("id").is(id));
-        mongoTemplate.remove(query,User.class);
+        Query query = new Query(Criteria.where("id").is(id));
+        mongoTemplate.remove(query, User.class);
     }
 
 }
